@@ -1,0 +1,9 @@
+[flake8]
+max-line-length = 120
+extend-ignore = A003,F403,F405
+exclude =
+    .git,
+    __pycache__,
+    *.txt,
+    *migrations*
+max-complexity = 10

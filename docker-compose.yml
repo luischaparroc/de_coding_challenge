@@ -1,0 +1,35 @@
+version: '3'
+
+services:
+
+  db:
+    build: ./postgresql
+    env_file:
+      - ./postgresql/.env
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgres/data
+
+  web:
+    build: .
+    command: gunicorn -w 4 -b 0.0.0.0:5000 app:app
+    env_file:
+      - ./postgresql/.env
+      - .env
+    depends_on:
+      - db
+    ports:
+      - "5000:5000"
+    volumes:
+      - .:/de-coding-challenge
+
+  nginx:
+    build: ./nginx
+    ports:
+      - "80:80"
+    depends_on:
+      - web
+
+volumes:
+  postgres_data:
