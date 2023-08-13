@@ -3,11 +3,13 @@ import os
 from flask import Flask, jsonify, make_response
 
 from application.blueprints.company_data.endpoints import company_data_blueprint
+from application.blueprints.report.endpoints import reports_blueprint
 from application.models import Department, HiredEmployee, Job  # noqa
 from extensions import db, migrate
 
 app = Flask(__name__)
 app.register_blueprint(company_data_blueprint)
+app.register_blueprint(reports_blueprint)
 app.config['FLASK_ENV'] = os.environ.get('FLASK_ENV')
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
