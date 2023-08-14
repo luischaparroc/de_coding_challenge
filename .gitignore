@@ -161,4 +161,4 @@ cython_debug/
 
 migrations/
 
-*.csv
+tmp/
