@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 from typing import List
 from uuid import uuid4
 
@@ -32,7 +33,10 @@ class Extractor:
         if not self.is_csv_file(safe_filename):
             raise InvalidDataException(f'Filename extension is not csv: resource type {key}, filename: {file.filename}')
 
-        safe_filename = f'{safe_filename.rstrip(".csv")}_{str(datetime.now())}_{uuid4()}.csv'
+        if not os.path.exists('tmp'):
+            os.mkdir('tmp')
+
+        safe_filename = f'tmp/{safe_filename.rstrip(".csv")}_{str(datetime.now())}_{uuid4()}.csv'
         file.save(safe_filename)
 
         dataframe_properties = get_dataframe_properties(key)
