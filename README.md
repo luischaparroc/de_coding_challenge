@@ -40,13 +40,13 @@ The database uses the postgresql engine of income information in the csv files. 
 This module receives the income information from the CSV files. It is composed by the following stages:
 
 * Extractor: it reads the income information using pandas library. It expects well-formatted and comma-separated CSV files. If one of the income files is not well-formatted, the application raises an exception and returns an error code (400). The extractor is capable of reading one or multiple files with the same key. It excepts to receive the following keys: `departments`, `jobs` and `hired_employees`.
-* Transformer: it processes the information obtained in the extractor stage. The Chain of Responsibility design pattern was implemented in this stage to process the information (departments -> jobs -> hired_employees). In order to asure referential integrity and data quality, it filters the rows without values of primary and foreign keys. In a further work, the filtered information could be stored in AWS S3 for tracing purposes. The UML diagram of this stage is the following:
+* Transformer: it processes the information obtained in the extractor stage. The Chain of Responsibility design pattern was implemented in this stage to process the information (departments -> jobs -> hired_employees). In order to guarantee referential integrity and data quality, it filters the rows without values of primary and foreign keys. In a further work, the filtered information could be stored in AWS S3 for tracing purposes. The UML diagram of this stage is the following:
 
 ![image](resources/readme_images/uml_transformer.png)
 
 If the application have to scale, it provides a defined signature to implement more transformers.
 
-* Loader: it stores the information in the database. The Chain of Responsibility design pattern was implemented in this stage to process the information in order to avoid stored information without proper relationship: for example, it does not store a hired_employee without a job or a defined department. The order of the chain of the responsibility is the following: departments -> jobs -> hired_employees. In order to asure referential integrity and data quality, it filters the rows without values of primary and foreign keys. In a further work, the filtered information could be stored in AWS S3 for tracing purposes. The UML diagram of this stage is the following:
+* Loader: it stores the information in the database. The Chain of Responsibility design pattern was implemented in this stage to process the information in order to avoid stored information without proper relationship: for example, it does not store a hired_employee without a job or a defined department. The order of the chain of the responsibility is the following: departments -> jobs -> hired_employees. In order to guarantee referential integrity and data quality, it filters the rows without values of primary and foreign keys. In a further work, the filtered information could be stored in AWS S3 for tracing purposes. The UML diagram of this stage is the following:
 
 ![image](resources/readme_images/uml_loader.png)
 
@@ -148,4 +148,12 @@ Execute the following command to run the unit tests:
 
 ```
 docker-compose run --rm web python -m unittest
+```
+
+## Pre-commit
+
+This repository contains the configuration to install the Pre-Commit Git Hook, in order to inspect the code and guarantee best practices (avoid unused objects or variables, proper import packages, etc.). Execute the following command to install it:
+
+```
+make pre-commit
 ```
